@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import collections
+from collections import namedtuple
 
 from riak import RiakError
 from riak.table import Table
 
-TsColumns = collections.namedtuple('TsColumns', ['names', 'types'])
+TsColumns = namedtuple('TsColumns', ['names', 'types'])
 
 
 class TsObject(object):

@@ -16,15 +16,11 @@ from __future__ import print_function
 from collections import namedtuple
 from threading import Thread, Lock, Event
 from multiprocessing import cpu_count
-from six import PY2
 
 from riak.riak_object import RiakObject
 from riak.ts_object import TsObject
 
-if PY2:
-    from Queue import Queue, Empty
-else:
-    from queue import Queue, Empty
+from queue import Queue, Empty
 
 __all__ = ['multiget', 'multiput', 'MultiGetPool', 'MultiPutPool']
 
