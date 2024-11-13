@@ -12,19 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from distutils.version import LooseVersion
+from packaging.version import Version
 from riak.util import lazy_property
 
 
 versions = {
-    1: LooseVersion('1.0.0'),
-    1.1: LooseVersion('1.1.0'),
-    1.2: LooseVersion('1.2.0'),
-    1.4: LooseVersion('1.4.0'),
-    1.44: LooseVersion('1.4.4'),
-    2.0: LooseVersion('2.0.0'),
-    2.1: LooseVersion('2.1.0'),
-    2.12: LooseVersion('2.1.2')
+    1: Version('1.0.0'),
+    1.1: Version('1.1.0'),
+    1.2: Version('1.2.0'),
+    1.4: Version('1.4.0'),
+    1.44: Version('1.4.4'),
+    2.0: Version('2.0.0'),
+    2.1: Version('2.1.0'),
+    2.12: Version('2.1.2')
 }
 
 
@@ -208,4 +208,4 @@ class FeatureDetection(object):
 
     @lazy_property
     def server_version(self):
-        return LooseVersion(self._server_version())
+        return Version(self._server_version())
