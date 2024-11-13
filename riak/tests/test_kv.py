@@ -32,14 +32,9 @@ try:
 except ImportError:
     import json
 
-if PY2:
-    import cPickle
-    test_pickle_dumps = cPickle.dumps
-    test_pickle_loads = cPickle.loads
-else:
-    import pickle
-    test_pickle_dumps = pickle.dumps
-    test_pickle_loads = pickle.loads
+import pickle
+pickle_dumps_test = pickle.dumps
+pickle_loads_test = pickle.loads
 
 
 testrun_sibs_bucket = 'sibsbucket'
@@ -355,8 +350,8 @@ class BasicKVTests(IntegrationTestBase, unittest.TestCase, Comparison):
     def test_custom_bucket_encoder_decoder(self):
         bucket = self.client.bucket(self.bucket_name)
         # Teach the bucket how to pickle
-        bucket.set_encoder('application/x-pickle', test_pickle_dumps)
-        bucket.set_decoder('application/x-pickle', test_pickle_loads)
+        bucket.set_encoder('application/x-pickle', pickle_dumps_test)
+        bucket.set_decoder('application/x-pickle', pickle_loads_test)
         data = {'array': [1, 2, 3], 'badforjson': NotJsonSerializable(1, 3)}
         obj = bucket.new(self.key_name, data, 'application/x-pickle')
         obj.store()
@@ -366,8 +361,8 @@ class BasicKVTests(IntegrationTestBase, unittest.TestCase, Comparison):
     def test_custom_client_encoder_decoder(self):
         bucket = self.client.bucket(self.bucket_name)
         # Teach the client how to pickle
-        self.client.set_encoder('application/x-pickle', test_pickle_dumps)
-        self.client.set_decoder('application/x-pickle', test_pickle_loads)
+        self.client.set_encoder('application/x-pickle', pickle_dumps_test)
+        self.client.set_decoder('application/x-pickle', pickle_loads_test)
         data = {'array': [1, 2, 3], 'badforjson': NotJsonSerializable(1, 3)}
         obj = bucket.new(self.key_name, data, 'application/x-pickle')
         obj.store()
