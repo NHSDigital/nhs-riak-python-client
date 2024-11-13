@@ -1,20 +1,28 @@
-*~
-#*#
-_build/
-build/
-.coverage
-dist/
-docsrc/doctrees/
-*.egg
-.eggs/
-envs/
-.idea/
-py-build/
+# Compiled source
 *.pyc
-__pycache__/
-.python-version
-README.rst
-riak-*/
-riak.egg-info/
-.*.swp
+
+# Build tools
 .tox/
+
+# Packaging
+build/
+dist/
+*.egg-info
+
+# Test output
+nose-xunit.xml
+nosetests.xml
+.noseids
+htmlcov/
+.coverage
+coverage-all.txt
+**/.webassets-cache/
+**/static/js/gen/
+
+# IDE files
+.vscode/
+*venv/
+*.code-workspace
+
+# Terraform
+**/.terraform/*
