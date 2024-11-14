@@ -46,7 +46,7 @@ jobs:
         with:
           aws-region: eu-west-2
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/dev-riak-python-client-github-action
-          audience: dev-riak-python-client
+          audience: nhs-riak-python-client
 
       - name: Run CodeBuild
         id: run-codebuild
