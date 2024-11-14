@@ -16,7 +16,7 @@ phases:
       - python3.10 setup.py bdist_wheel --version $VERSION_NUMBER
   post_build:
     commands:
-      - . ./setuptools/bin/activate
+      - . ./riak_python_client_env/bin/activate
       # Temporary incompatibility issue with Twine and version 8.0 of importlib_metadata:
       # https://github.com/python/importlib_metadata/issues/492
       - pip install $PIP_INDEX_ARGS "importlib_metadata<8.0"
