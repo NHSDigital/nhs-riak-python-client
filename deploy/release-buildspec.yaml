@@ -6,7 +6,7 @@ phases:
       - virtualenv -p python3.10 ./riak_python_client_env
       - . ./riak_python_client_env/bin/activate
       - pip install $PIP_INDEX_ARGS --upgrade pip
-      - pip install $PIP_INDEX_ARGS pytest
+      - pip install $PIP_INDEX_ARGS -r requirements.txt
       - pytest riak
   build:
     commands:
