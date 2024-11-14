@@ -1,0 +1,81 @@
+name: release-build
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  release-build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Check version number input is correctly formatted
+        id: check-version-number-input
+        if: "${{ github.event.inputs.version != '' }}"
+        run: |
+          if [[ ${{ github.event.inputs.version }} =~ ^v[0-9]*\.[0-9]*\.[0-9]*$ ]]; then
+            echo "Valid version number"
+          else
+            echo "Invalid version number, must be in the format v1.5.7. Exiting workflow."
+            exit 1
+          fi
+
+      - name: Create new version number
+        id: create-new-version-number
+        run: |
+          if ${{ github.event.inputs.version  == '' }}; then
+            previous_version=$(git tag -l v[0-9]*\.[0-9]*\.[0-9]* --sort=-version:refname | head -n 1)
+            new_version=$(echo $previous_version | awk -F. -v OFS=. '{$NF += 1 ; print}')
+            echo "NEW_VERSION=${new_version}" >> $GITHUB_OUTPUT
+          else
+            echo "NEW_VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          aws-region: eu-west-2
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/dev-riak-python-client-github-action
+          audience: dev-riak-python-client
+
+      - name: Run CodeBuild
+        id: run-codebuild
+        uses: aws-actions/aws-codebuild-run-build@v1.0.16
+        with:
+          project-name: dev-riak-python-client-codebuild
+          env-vars-for-codebuild: |
+            VERSION_NUMBER
+        env:
+          VERSION_NUMBER: ${{ steps.create-new-version-number.outputs.NEW_VERSION }}
+
+      - name: Create tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.create-new-version-number.outputs.NEW_VERSION }}',
+              sha: context.sha
+            })
+
+      - name: Create Release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: '${{ steps.create-new-version-number.outputs.NEW_VERSION }}',
+              generate_release_notes: true
+            })
