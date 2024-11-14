@@ -1,5 +1,5 @@
 locals {
-  name        = "spine-riak-python-client"
+  name        = "riak-python-client"
   environment = terraform.workspace
   variables   = jsondecode(file("${path.module}/env/${local.environment}.json"))
 
