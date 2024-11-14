@@ -70,7 +70,7 @@ setup(
     platforms='Platform Independent',
     test_suite='riak.tests.suite',
     project_urls={
-        'Source': 'https://github.com/NHSDigital/spine-web-fundamentals/',
+        'Source': 'https://github.com/NHSDigital/spine-riak-python-client/',
     },
     cmdclass={
         'build_messages': build_messages,
