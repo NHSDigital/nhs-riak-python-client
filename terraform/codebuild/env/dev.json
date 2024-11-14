@@ -1,0 +1,14 @@
+{
+  "allowed_account_ids": [
+    "972507299441"
+  ],
+  "build_private_subnets": [
+    "subnet-091d93b8d8f6de62c",
+    "subnet-0f3ff79ca1abeaa95",
+    "subnet-05cbe798c79d9bf95"
+  ],
+  "build_vpc": "vpc-09dc769039a96c6a2",
+  "compute_type": "BUILD_GENERAL1_SMALL",
+  "github_service_user": "dev-meshui-github-codebuild-trigger",
+  "nexus_password_path": "/spineii-dev-igwayv3/nexus_password"
+}
