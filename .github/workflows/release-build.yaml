@@ -1,8 +1,10 @@
 name: release-build
 on:
-  push:
-    branches-ignore:
-      - master
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "The new version number for the latest release (Optional)"
+        required: false
 
 jobs:
   release-build:
