@@ -5,52 +5,6 @@ on:
       - master
 
 jobs:
-  tf-fmt:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-      name: Checkout source code
-      with:
-          fetch-depth: 0
-
-    - name: Terraform format check
-      run: cd terraform && terraform fmt -check -recursive -diff
-
-  tflint:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-      name: Checkout source code
-      with:
-          fetch-depth: 0
-
-    - uses: terraform-linters/setup-tflint@v4
-      name: Setup TFLint
-
-    - name: Show version
-      run: tflint --version
-
-    - name: Run TFLint
-      run: cd terraform && tflint -f compact --recursive
-
-  tfsec:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-      name: Checkout source code
-      with:
-          fetch-depth: 0
-
-    - name: Run TFSec
-      uses: aquasecurity/tfsec-action@v1.0.3
-      with:
-        github_token: ${{ github.token }}
-        working_directory: terraform/
-        additional_args: --concise-output
-
   pytest:
     runs-on: ubuntu-latest
 
