@@ -1,0 +1,4 @@
+six==1.16.0
+basho-erlastic==2.1.1
+python3-protobuf==2.5.0
+pytest==7.2.0

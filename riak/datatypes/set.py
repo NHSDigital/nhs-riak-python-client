@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import collections
+from collections.abc import Set, Iterable
 
 from .datatype import Datatype
 from six import string_types
@@ -21,7 +21,7 @@ from riak.datatypes import TYPES
 __all__ = ['Set']
 
 
-class Set(collections.Set, Datatype):
+class Set(Set, Datatype):
     """A convergent datatype representing a Set with observed-remove
     semantics. Currently strings are the only supported value type.
     Example::
@@ -72,7 +72,7 @@ class Set(collections.Set, Datatype):
             changes['removes'] = list(self._removes)
         return changes
 
-    # collections.Set API, operates only on the immutable version
+    # collections.abc.Set API, operates only on the immutable version
     def __contains__(self, element):
         return element in self.value
 
@@ -82,7 +82,7 @@ class Set(collections.Set, Datatype):
     def __len__(self):
         return len(self.value)
 
-    # Sort of like collections.MutableSet API, without the additional
+    # Sort of like collections.abc.MutableSet API, without the additional
     # methods.
     def add(self, element):
         """
@@ -116,7 +116,7 @@ class Set(collections.Set, Datatype):
         return frozenset(new_value)
 
     def _check_type(self, new_value):
-        if not isinstance(new_value, collections.Iterable):
+        if not isinstance(new_value, Iterable):
             return False
         for element in new_value:
             if not isinstance(element, string_types):

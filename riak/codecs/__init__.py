@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import collections
+from collections import namedtuple
 
 import riak.pb.messages
 
@@ -20,8 +20,7 @@ from riak import RiakError
 from riak.codecs.util import parse_pbuf_msg
 from riak.util import bytes_to_str
 
-Msg = collections.namedtuple('Msg',
-                             ['msg_code', 'data', 'resp_code'])
+Msg = namedtuple('Msg', ['msg_code', 'data', 'resp_code'])
 
 
 class Codec(object):

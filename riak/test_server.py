@@ -70,6 +70,8 @@ def erlang_config(hash, depth=1):
 
 
 class TestServer(object):
+    __test__ = False
+
     VM_ARGS_DEFAULTS = {
         "-name": "riaktest%d@127.0.0.1" % random.randint(0, 100000),
         "-setcookie": "%d_%d" % (random.randint(0, 100000),

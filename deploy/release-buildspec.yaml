@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - virtualenv -p python3.10 ./riak_python_client_env
+      - . ./riak_python_client_env/bin/activate
+      - pip install $PIP_INDEX_ARGS --upgrade pip
+      - pip install $PIP_INDEX_ARGS -r requirements.txt
+      - pytest riak
+  build:
+    commands:
+      - . ./riak_python_client_env/bin/activate
+      - pip install $PIP_INDEX_ARGS wheel setuptools==58.2.0
+      - python3.10 setup.py clean
+      - python3.10 setup.py bdist_wheel --version $VERSION_NUMBER
+  post_build:
+    commands:
+      - . ./riak_python_client_env/bin/activate
+      # Temporary incompatibility issue with Twine and version 8.0 of importlib_metadata:
+      # https://github.com/python/importlib_metadata/issues/492
+      - pip install $PIP_INDEX_ARGS "importlib_metadata<8.0"
+      - pip install $PIP_INDEX_ARGS twine==4.0.1
+      - twine upload -r spypi --repository-url $NEXUS_URL -u $NEXUS_USERNAME -p $NEXUS_PASSWORD dist/*
